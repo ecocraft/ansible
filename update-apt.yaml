@@ -1,0 +1,8 @@
+- name: Aktualizovat balíčky
+  hosts: all
+  become: true
+  tasks:
+    - name: Provést update balíčků apt
+      apt:
+        upgrade: yes
+        update_cache: yes

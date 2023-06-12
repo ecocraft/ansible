@@ -1,0 +1,15 @@
+- name: Aktualizovat křídla
+  hosts: kolena
+  become: yes
+  tasks:
+    - name: Vypnout Wings
+      shell: "systemctl stop wings"
+
+    - name: Stáhnout Wings
+      shell: 'curl -L -o /usr/local/bin/wings "https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "arm64")"'
+
+    - name: Upravit oprávnění
+      shell: "chmod u+x /usr/local/bin/wings"
+
+    - name: Spustit Wings
+      shell: "systemctl restart wings"

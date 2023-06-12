@@ -1,0 +1,23 @@
+- name: Aktualizovat a upgradovat systém
+  hosts: all
+  become: true
+  tasks:
+    - name: Aktualizovat balíky
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+    - name: Upgradovat balíky
+      apt: upgrade=dist force_apt_get=yes
+
+    - name: Zkontrolovat, zda server nepotřebuje restart
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Provést potřebný restart serveru
+      reboot:
+        msg: "Reboot serveru spuštěn přes Ansible kvůli aktualizacím kernelu"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists
