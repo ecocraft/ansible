@@ -10,3 +10,13 @@
     - debug:
         msg: "Reboot is required"
       when: reboot_required.stat.exists
+    - name: send discord message when reboot is required
+      uri:
+        url: "https://discord.com/api/webhooks/1117847023836725258/jYu3zo8omzTmzdHBe_eva9SQ0qwEKkfbjGuFiIyO3RuX63bnyvM0j4TKhmHENrddCh_V"
+        method: POST
+        body_format: json
+        body: '{"content": "Reboot on {{ inventory_hostname }} is required!"}'
+        headers:
+          Content-Type: application/json
+        status_code: 204
+      when: reboot_required
