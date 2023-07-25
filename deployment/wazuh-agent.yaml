@@ -1,12 +1,6 @@
 - name: Nainstalovat Wazuh agenta
   hosts: all
   become: yes
-  semaphore_vars:
-    task_details:
-        type: build
-        username: admin
-        message: Deploy new feature to servers
-        incoming_version: 4.4.5
   tasks:
     - name: Nainstalovat agenta
       shell: "curl -so wazuh-agent.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.5-1_amd64.deb && sudo WAZUH_MANAGER='wazuh-agent.dejvishost.eu' WAZUH_AGENT_GROUP='default' dpkg -i ./wazuh-agent.deb"
