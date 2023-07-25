@@ -3,7 +3,7 @@
   become: yes
   semaphore_vars:
     task_details:
-        type: deploy
+        type: build
         username: admin
         message: Deploy new feature to servers
         incoming_version: 4.4.5
