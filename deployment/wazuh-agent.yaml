@@ -1,0 +1,17 @@
+- name: Nainstalovat Wazuh agenta
+  hosts: all
+  become: yes
+  tasks:
+    - name: Nainstalovat agenta
+      shell: "curl -so wazuh-agent.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.5-1_amd64.deb && sudo WAZUH_MANAGER='wazuh-agent.dejvishost.eu' WAZUH_AGENT_GROUP='default' dpkg -i ./wazuh-agent.deb"
+
+    - name: Povolit službu agenta
+      ansible.builtin.service:
+        daemon_reload: true
+        name: wazuh-agent
+        enabled: yes
+
+    - name: Spustit službu agenta
+      ansible.builtin.service:
+        name: wazuh-agent
+        state: started
