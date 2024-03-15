@@ -1,5 +1,5 @@
 - name: Aktualizovat křídla
-  hosts: all
+  hosts: {{ hosts }}
   become: yes
   tasks:
     - name: Vypnout Wings
