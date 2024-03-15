@@ -16,6 +16,17 @@
 
     - name: Stáhnout Wings
       shell: 'curl -L -o /usr/local/bin/wings "https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "arm64")"'
+      async: 600   # Časový limit na stahování v sekundách (10 minut)
+      poll: 0      # Frekvence kontroly, 0 znamená pouze jednou po dokončení úlohy
+      register: curl_result
+
+    - name: Čekat na dokončení stahování
+      async_status:
+        jid: "{{ curl_result.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30  # Počet opakování, pokud se stahování ještě neukončilo
+      delay: 10    # Zpoždění mezi opakováními (v sekundách)
 
     - name: Upravit oprávnění
       shell: "chmod u+x /usr/local/bin/wings"
