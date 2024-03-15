@@ -26,4 +26,4 @@
       shell: "chmod u+x /usr/local/bin/wings"
 
     - name: Spustit Wings
-      shell: "systemctl start wings"
+      shell: "systemctl restart wings"
