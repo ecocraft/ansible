@@ -10,7 +10,7 @@
         name: wings 
         state: stopped
       register: myserviceDetails
-      until: myserviceDetails.status == "exited"
+      until: myserviceDetails.status.State == "stopped"
       retries: 15
       delay: 20
 
